@@ -125,6 +125,7 @@ footer{margin-top:42px;padding:22px 20px 0;border-top:1px solid var(--line);text
   <nav class="jumpnav" id="jumpNav">
     <a data-jump="jump-food">Food</a>
     <a data-jump="jump-cocktails">Cocktails</a>
+    <a data-jump="jump-beer">Beer</a>
     <a data-jump="jump-wine">Wine</a>
   </nav>
 
@@ -194,7 +195,23 @@ const MENU=[
   {cat:"Cocktails",drink:true,name:"Wealth of the Motherland",price:"16",desc:"Kakira vodka with elderflower, cucumber and lime.",note:"Cool, clean and floral — garden-fresh cucumber lifted by elderflower.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
   {cat:"Cocktails",drink:true,name:"Lady May River",price:"16",desc:"Tequila with pomegranate, sour apple and a blackberry-ginger-rosemary purée.",note:"Juicy and tart — dark berry and pomegranate with a green-apple snap.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
   {cat:"Cocktails",drink:true,name:"Jelimuso",price:"18",desc:"Tequila blanco with mango, hibiscus and lime.",note:"Lush and vibrant — ripe mango balanced by tart hibiscus.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
-  {cat:"Cocktails",drink:true,name:"Oba Ife “King’s Cup”",price:"18",desc:"Bourbon (or rum) with sage and orange bitters, smoked tableside.",note:"Warm, aromatic and gently smoky — herbal sage over a smooth, spirit-forward base, finished with smoke at the table.",dietary:[],allergens:{contains:[],removable:[]},pour:""}
+  {cat:"Cocktails",drink:true,name:"Oba Ife “King’s Cup”",price:"18",desc:"Bourbon (or rum) with sage and orange bitters, smoked tableside.",note:"Warm, aromatic and gently smoky — herbal sage over a smooth, spirit-forward base, finished with smoke at the table.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+
+  {cat:"Draft Beer",drink:true,name:"Service Brewing Co.",price:"7",desc:"Pilsner",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Draft Beer",drink:true,name:"Lot 9 Brewery “Hurts So Good”",price:"7",desc:"Hazy IPA",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Draft Beer",drink:true,name:"Westbrook",price:"7",desc:"Lager",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Draft Beer",drink:true,name:"Aloha Beaches",price:"7",desc:"Pineapple wheat",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+
+  {cat:"Bottles and Cans",drink:true,name:"Red Stripe",price:"8",desc:"Jamaican lager",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Bottles and Cans",drink:true,name:"Corona",price:"6",desc:"Mexican lager",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Bottles and Cans",drink:true,name:"Michelob Ultra",price:"6",desc:"Light lager",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Bottles and Cans",drink:true,name:"Coast Brewing “Kölsch”",price:"6",desc:"Kölsch-style ale",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Bottles and Cans",drink:true,name:"Service Brewing “Freedom Machine”",price:"7",desc:"Juicy IPA",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Bottles and Cans",drink:true,name:"Side Hustle “South Island”",price:"9",desc:"Pilsner",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Bottles and Cans",drink:true,name:"Edmund’s Oast “Leather Jacket”",price:"9",desc:"Porter",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Bottles and Cans",drink:true,name:"Edmund’s Oast “Sour Guava Tangerine”",price:"9",desc:"Fruited sour",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Bottles and Cans",drink:true,name:"Westbrook “Brown Ale”",price:"9",desc:"Brown ale",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Bottles and Cans",drink:true,name:"Legal Remedy “World Court”",price:"6",desc:"Mocha blonde stout",dietary:[],allergens:{contains:[],removable:[]},pour:""}
 ];
 
 const WINE=[
@@ -302,6 +319,7 @@ function render(){
     if(!items.length) return;
     const sec=el('div','section');
     if(cat==="Cocktails"){ sec.id="jump-cocktails"; }
+    else if(cat==="Draft Beer"){ sec.id="jump-beer"; }
     else if(firstFood){ sec.id="jump-food"; firstFood=false; }
     sec.appendChild(el('h2',null,cat));
     sec.appendChild(el('div','sdiv'));
