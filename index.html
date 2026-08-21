@@ -68,6 +68,15 @@ body{background:var(--cream);color:var(--ink);font-family:var(--body);line-heigh
 .item .nm{font-family:var(--body);font-size:1.14rem;font-weight:700;color:var(--ink);}
 .item .pr{color:var(--teal-dk);font-weight:700;white-space:nowrap;font-size:1rem;}
 .item .ds{margin:5px 0 0;color:var(--muted);font-size:.96rem;}
+.item .tnote{margin:7px 0 0;color:var(--plum);font-style:italic;font-size:.9rem;line-height:1.35;opacity:.92;}
+.item .tnote::before{content:"Tasting note · ";font-style:normal;font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:.72rem;color:var(--teal);opacity:.9;}
+.jumpnav{position:sticky;top:0;z-index:40;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;background:rgba(244,238,225,.96);backdrop-filter:blur(6px);padding:10px 8px;margin:0 -18px 4px;border-bottom:1px solid rgba(81,65,99,.14);}
+.jumpnav a{cursor:pointer;font-family:var(--body);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--plum);padding:7px 16px;border:1px solid rgba(81,65,99,.28);border-radius:999px;background:#fff;transition:background .15s,color .15s,border-color .15s;}
+.jumpnav a:hover,.jumpnav a.active{background:var(--teal);color:#fff;border-color:var(--teal);}
+.section{scroll-margin-top:66px;}
+.toTop{position:fixed;right:16px;bottom:16px;z-index:50;display:none;align-items:center;gap:6px;background:var(--teal);color:#fff;border:none;border-radius:999px;padding:11px 17px;font-family:var(--body);font-size:.85rem;font-weight:600;letter-spacing:.03em;box-shadow:0 5px 16px rgba(0,0,0,.22);cursor:pointer;}
+.toTop:hover{background:var(--plum);}
+.toTop.show{display:inline-flex;}
 .row2{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:9px;}
 .tags{display:flex;flex-wrap:wrap;gap:6px;}
 .tag{font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;font-weight:700;background:rgba(92,183,177,.16);color:var(--teal-dk);}
@@ -111,11 +120,18 @@ footer{margin-top:42px;padding:22px 20px 0;border-top:1px solid var(--line);text
     </div>
   </div>
 
+  <nav class="jumpnav" id="jumpNav">
+    <a data-jump="jump-food">Food</a>
+    <a data-jump="jump-cocktails">Cocktails</a>
+    <a data-jump="jump-wine">Wine</a>
+  </nav>
+
   <div id="menu"></div>
   <div class="empty" id="empty" style="display:none;">No dishes match — try clearing a filter.</div>
 
   <footer id="foot"></footer>
 </div>
+<button class="toTop" id="toTop" aria-label="Back to top">↑ Top</button>
 
 <script>
 const PHOTOTALL = {"Crispy Okra":1};
@@ -170,37 +186,37 @@ const MENU=[
   {cat:"Of the Earth",name:"Gullah Okra & Tomatoes",price:"20",desc:"Gullah-style stewed okra and tomatoes over Carolina Gold rice with fresh herbs.",dietary:["Vegetarian","Vegan","Gluten-Free","Dairy-Free"],allergens:{contains:[],removable:[]},pour:"Flora Lisa Pinot Grigio"},
   {cat:"Of the Earth",name:"Suya Spiced Cauliflower",price:"20",desc:"Whole-roasted cauliflower in smoky suya spice with a peanut-herb salad.",dietary:["Vegetarian","Vegan","Gluten-Free","Dairy-Free"],allergens:{contains:["Peanut"],removable:[]},pour:"House of Brown Chardonnay"},
 
-  {cat:"Cocktails",drink:true,name:"Chef’s Tea",price:"18",desc:"Diplomático rum with hibiscus and banana — tart, tropical and a little bit magic.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
-  {cat:"Cocktails",drink:true,name:"Passion Fruit Mojito",price:"15",desc:"Havana Club rum with muddled mint and passion fruit, fresh lime, and a lift of soda.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
-  {cat:"Cocktails",drink:true,name:"Lilly Water / Omii Lii",price:"15",desc:"Gin with grape and violet, a whisper of sage, and bright lemon.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
-  {cat:"Cocktails",drink:true,name:"Wealth of the Motherland",price:"16",desc:"Vusa vodka, St. Germain, cucumber and lime — light and floral.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
-  {cat:"Cocktails",drink:true,name:"Lady May River",price:"16",desc:"Lunazul tequila with pomegranate, sour apple and blackberry-ginger.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
-  {cat:"Cocktails",drink:true,name:"Jelimuso",price:"18",desc:"El Mayor tequila, mango, hibiscus and lime.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
-  {cat:"Cocktails",drink:true,name:"Oba Ife “King’s Cup”",price:"18",desc:"Woodford Reserve or Bumbu, sage, orange bitters — smoked at the table.",dietary:[],allergens:{contains:[],removable:[]},pour:""}
+  {cat:"Cocktails",drink:true,name:"Chef’s Tea",price:"18",desc:"Monkey Shoulder Scotch with hibiscus tea and banana, fresh lemon and lime, and a touch of agave.",note:"Tart and tropical with a soft banana warmth and a mellow malt backbone.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Cocktails",drink:true,name:"Passion Fruit Mojito",price:"15",desc:"Havana Club rum with muddled mint and passion fruit, fresh lime, and a lift of soda.",note:"Bright, minty and effervescent — crisp and easy-drinking.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Cocktails",drink:true,name:"Lilly Water / Omii Lii",price:"15",desc:"Gin with grape and violet, a whisper of sage, and bright lemon.",note:"Floral and delicate — grape and violet over a herbal sage finish.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Cocktails",drink:true,name:"Wealth of the Motherland",price:"16",desc:"Kakira vodka with elderflower, cucumber and lime.",note:"Cool, clean and floral — garden-fresh cucumber lifted by elderflower.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Cocktails",drink:true,name:"Lady May River",price:"16",desc:"Tequila with pomegranate, sour apple and a blackberry-ginger-rosemary purée.",note:"Juicy and tart — dark berry and pomegranate with a green-apple snap.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Cocktails",drink:true,name:"Jelimuso",price:"18",desc:"Tequila blanco with mango, hibiscus and lime.",note:"Lush and vibrant — ripe mango balanced by tart hibiscus.",dietary:[],allergens:{contains:[],removable:[]},pour:""},
+  {cat:"Cocktails",drink:true,name:"Oba Ife “King’s Cup”",price:"18",desc:"Bourbon (or rum) with sage and orange bitters, smoked tableside.",note:"Warm, aromatic and gently smoky — herbal sage over a smooth, spirit-forward base, finished with smoke at the table.",dietary:[],allergens:{contains:[],removable:[]},pour:""}
 ];
 
 const WINE=[
-  {type:"Red",name:"Wormser Dornfelder",region:"Germany",glass:"13",bottle:"42"},
-  {type:"Red",name:"Sean Minor Pinot Noir",region:"Sonoma Coast, California",glass:"14",bottle:"49"},
-  {type:"Red",name:"Big Flower Cabernet Sauvignon",region:"Stellenbosch, South Africa",glass:"15",bottle:"52"},
-  {type:"Red",name:"Tentadora Malbec",region:"Cafayate, Argentina",glass:"15",bottle:"52"},
-  {type:"Red",name:"Valdehermoso Joven Tempranillo",region:"Roa, Spain",glass:"16",bottle:"56"},
-  {type:"Red",name:"Brown Estate Chaos Theory Red Blend",region:"Napa Valley, California",glass:"",bottle:"58"},
-  {type:"Red",name:"Brown Estate Zinfandel",region:"Napa Valley, California",glass:"",bottle:"72"},
-  {type:"Red",name:"Markham Cabernet Sauvignon",region:"Napa Valley, California",glass:"",bottle:"89"},
-  {type:"White",name:"Moscato Cuvée Adriana",region:"Italy",glass:"12",bottle:"45"},
-  {type:"Rosé",name:"Rosé de Printemps",region:"Provence, France",glass:"13",bottle:"48"},
-  {type:"White",name:"Flora Lisa Pinot Grigio",region:"Central Italy",glass:"13",bottle:"48"},
-  {type:"White",name:"House of Brown Chardonnay",region:"Lodi, California",glass:"14",bottle:"49"},
-  {type:"White",name:"Radley & Finch Sauvignon Blanc",region:"Western Cape, South Africa",glass:"14",bottle:"49"},
-  {type:"White",name:"Big Salt",region:"Oregon",glass:"16",bottle:"58"},
-  {type:"White",name:"Raats Chenin Blanc",region:"Coastal Region, South Africa",glass:"15",bottle:"52"},
-  {type:"White",name:"Blanc de Noir",region:"France",glass:"16",bottle:"58"},
-  {type:"White",name:"Lemelson White Pinot Noir",region:"Willamette Valley, Oregon",glass:"",bottle:"65"},
-  {type:"Bubbles",name:"Don Luchi Prosecco",region:"Italy",glass:"13",bottle:"48"},
-  {type:"Bubbles",name:"Los Monteros Cava Brut",region:"Spain",glass:"14",bottle:"49"},
-  {type:"Bubbles",name:"Fritz Müller (non-alcoholic)",region:"Germany",glass:"13",bottle:"48"},
-  {type:"Bubbles",name:"La Cuvée Laurent-Perrier Brut",region:"France",glass:"",bottle:"79"}
+  {type:"Red",name:"Wormser Dornfelder",region:"Germany",glass:"13",bottle:"42",note:"Soft, juicy German red — dark berries, mild acidity, light-medium body."},
+  {type:"Red",name:"Sean Minor Pinot Noir",region:"Sonoma Coast, California",glass:"14",bottle:"49",note:"Light, silky Pinot — red cherry and raspberry, bright and food-friendly."},
+  {type:"Red",name:"Big Flower Cabernet Sauvignon",region:"Stellenbosch, South Africa",glass:"15",bottle:"52",note:"Bold Cabernet — blackcurrant and cassis, firm tannins, medium-full."},
+  {type:"Red",name:"Tentadora Malbec",region:"Cafayate, Argentina",glass:"15",bottle:"52",note:"Plush high-altitude Malbec — ripe plum, blackberry, a floral lift, soft tannins."},
+  {type:"Red",name:"Valdehermoso Joven Tempranillo",region:"Roa, Spain",glass:"16",bottle:"56",note:"Juicy young Tempranillo — black cherry and plum, fresh, medium body."},
+  {type:"Red",name:"Brown Estate Chaos Theory Red Blend",region:"Napa Valley, California",glass:"",bottle:"58",note:"Layered Napa blend — dark fruit and spice, smooth, full-bodied."},
+  {type:"Red",name:"Brown Estate Zinfandel",region:"Napa Valley, California",glass:"",bottle:"72",note:"Bold Napa Zin — blackberry, brambly spice, jammy warmth, full body."},
+  {type:"Red",name:"Markham Cabernet Sauvignon",region:"Napa Valley, California",glass:"",bottle:"89",note:"Structured Napa Cabernet — cassis, black cherry, cocoa, firm and full."},
+  {type:"White",name:"Moscato Cuvée Adriana",region:"Italy",glass:"12",bottle:"45",note:"Sweet, gently fizzy Moscato — peach and orange blossom, low alcohol."},
+  {type:"Rosé",name:"Rosé de Printemps",region:"Provence, France",glass:"13",bottle:"48",note:"Pale, dry rosé — strawberry and citrus, delicate and crisp."},
+  {type:"White",name:"Flora Lisa Pinot Grigio",region:"Central Italy",glass:"13",bottle:"48",note:"Light, crisp Pinot Grigio — green apple, pear, citrus, dry."},
+  {type:"White",name:"House of Brown Chardonnay",region:"Lodi, California",glass:"14",bottle:"49",note:"Round California Chardonnay — ripe apple and pear, citrus, light oak."},
+  {type:"White",name:"Radley & Finch Sauvignon Blanc",region:"Western Cape, South Africa",glass:"14",bottle:"49",note:"Zesty Sauvignon Blanc — gooseberry, passionfruit, citrus, crisp."},
+  {type:"White",name:"Big Salt",region:"Oregon",glass:"16",bottle:"58",note:"Aromatic Oregon white — floral, citrus, a saline snap, lively."},
+  {type:"White",name:"Raats Chenin Blanc",region:"Coastal Region, South Africa",glass:"15",bottle:"52",note:"Fresh Chenin Blanc — quince, pear, citrus, a waxy texture, crisp."},
+  {type:"White",name:"Blanc de Noir",region:"France",glass:"16",bottle:"58",note:"Pale, soft white made from red grapes — red apple, delicate and easy."},
+  {type:"White",name:"Lemelson White Pinot Noir",region:"Willamette Valley, Oregon",glass:"",bottle:"65",note:"Crisp white from Pinot Noir — pear, citrus, a whisper of red fruit."},
+  {type:"Bubbles",name:"Don Luchi Prosecco",region:"Italy",glass:"13",bottle:"48",note:"Light, frothy Prosecco — green apple, pear, floral, off-dry."},
+  {type:"Bubbles",name:"Los Monteros Cava Brut",region:"Spain",glass:"14",bottle:"49",note:"Dry, crisp Cava — green apple and citrus, fine bready bubbles."},
+  {type:"Bubbles",name:"Fritz Müller (non-alcoholic)",region:"Germany",glass:"13",bottle:"48",note:"Gently sparkling, off-dry, non-alcoholic — grapey, floral, refreshing."},
+  {type:"Bubbles",name:"La Cuvée Laurent-Perrier Brut",region:"France",glass:"",bottle:"79",note:"Dry Champagne — crisp citrus, white flowers, brioche, fine mousse."}
 ];
 
 /* ---------- app ---------- */
@@ -234,6 +250,7 @@ function itemRow(m){
   if(m.price) head.appendChild(el('span','pr', m.price==='Market'?'MP':'$'+m.price));
   it.appendChild(head);
   it.appendChild(el('div','ds',m.desc));
+  if(m.note) it.appendChild(el('div','tnote',m.note));
 
   const r2=el('div','row2');
   if((m.dietary||[]).length){ const tg=el('div','tags'); m.dietary.forEach(d=>tg.appendChild(el('span','tag',dabbr(d)))); r2.appendChild(tg); }
@@ -268,11 +285,15 @@ function render(){
 
   const cats=[];MENU.forEach(m=>{if(!cats.includes(m.cat))cats.push(m.cat);});
   let shown=0;
+  let firstFood=true;
   cats.forEach(cat=>{
-    let items=MENU.filter(m=>m.cat===cat&&matchesDiet(m));
-    items=items.map(m=>({m,st:statusFor(m).kind})).filter(x=>!(state.hideUnsafe&&x.st==="no"));
+    // Drinks (cocktails) always show, regardless of dietary/allergen filters
+    let items=MENU.filter(m=>m.cat===cat&&(m.drink||matchesDiet(m)));
+    items=items.map(m=>({m,st:statusFor(m).kind})).filter(x=>x.m.drink||!(state.hideUnsafe&&x.st==="no"));
     if(!items.length) return;
     const sec=el('div','section');
+    if(cat==="Cocktails"){ sec.id="jump-cocktails"; }
+    else if(firstFood){ sec.id="jump-food"; firstFood=false; }
     sec.appendChild(el('h2',null,cat));
     sec.appendChild(el('div','sdiv'));
     if(cat==="Rice") sec.appendChild(el('div','snote','Sides · 8'));
@@ -280,11 +301,13 @@ function render(){
     menu.appendChild(sec);
   });
 
-  // Wine (hidden while dietary/allergen filtering food)
-  if(!state.avoid.size && !state.diet.size){
+  // Wine — always shown, regardless of dietary/allergen filters
+  {
+    let firstWine=true;
     ["Red","Rosé","White","Bubbles"].forEach(tp=>{
       const ws=WINE.filter(w=>w.type===tp);
       const sec=el('div','section');
+      if(firstWine){ sec.id="jump-wine"; firstWine=false; }
       sec.appendChild(el('h2',null,tp==="Bubbles"?"Bubbles":tp+" Wine"));
       sec.appendChild(el('div','sdiv'));
       ws.forEach(w=>{
@@ -294,6 +317,7 @@ function render(){
         head.appendChild(el('span','pr',(w.glass?'$'+w.glass+' / ':'')+'$'+w.bottle));
         it.appendChild(head);
         it.appendChild(el('div','ds',w.region+(w.glass?'':' · bottle only')));
+        if(w.note) it.appendChild(el('div','tnote',w.note));
         sec.appendChild(it);
       });
       menu.appendChild(sec);
@@ -307,6 +331,17 @@ document.getElementById('foot').innerHTML =
   "Coconut is used throughout the menu. Bubbles pair with almost anything. "+
   "Consuming raw or undercooked meat, poultry, seafood or eggs may increase your risk of foodborne illness. "+
   "A 3% card processing fee is added at checkout — avoid it by paying with cash.";
+
+// Jump-to-section nav
+document.getElementById('jumpNav').addEventListener('click',e=>{
+  const a=e.target.closest('a[data-jump]'); if(!a) return;
+  const t=document.getElementById(a.dataset.jump);
+  if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+});
+// Back-to-top button
+const toTop=document.getElementById('toTop');
+toTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+window.addEventListener('scroll',()=>{ toTop.classList.toggle('show', window.scrollY>420); },{passive:true});
 
 render();
 </script>
